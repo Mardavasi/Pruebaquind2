@@ -9,5 +9,7 @@ public interface PropertyRepositoryPort {
     Property save(Property property);
     Optional<Property> findById(Long id);
     List<Property> findAll();
+    List<Property> findByPriceBetween(double minPrice, double maxPrice);
     void delete(Property property);
+    boolean existsByName(String name);
 }

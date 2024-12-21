@@ -2,10 +2,13 @@ package com.example.rental.infrastructure.controller;
 
 import com.example.rental.domain.model.Property;
 import com.example.rental.domain.service.PropertyService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/properties")
@@ -23,11 +26,24 @@ public class PropertyController {
         return ResponseEntity.ok(created);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Property>> listProperties() {
-//        List<Property> properties = propertyService.listProperties();
-//        return ResponseEntity.ok(properties);
-//    }
+    @GetMapping
+    public ResponseEntity<?> listProperties(
+            @RequestParam Optional<Double> minPrice,
+            @RequestParam Optional<Double> maxPrice) {
+
+        try {
+            List<Property> properties = propertyService.listProperties(minPrice, maxPrice);
+            return ResponseEntity.ok(Map.of(
+                    "status", "La solicitud fue exitosa",
+                    "properties", properties
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Ocurrió un error al realizar la solicitud",
+                    "error", e.getMessage()
+            ));
+        }
+    }
 
     // Editar Propiedad
     @PutMapping("/{id}")
@@ -50,5 +66,5 @@ public class PropertyController {
         return ResponseEntity.ok(property);
     }
 
-    // Otros endpoints: Editar, eliminar, arrendar.
+
 }

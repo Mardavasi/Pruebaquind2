@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PropertyService {
@@ -19,9 +20,27 @@ public class PropertyService {
         this.propertyRepository = propertyRepository;
     }
 
+    public List<Property> listProperties(Optional<Double> minPrice, Optional<Double> maxPrice) {
+        List<Property> properties;
+
+        if (minPrice.isPresent() && maxPrice.isPresent()) {
+            properties = propertyRepository.findByPriceBetween(minPrice.get(), maxPrice.get());
+        } else {
+            properties = propertyRepository.findAll();
+        }
+
+        return properties;
+    }
+
     public Property registerProperty(Property property) {
         System.out.println("Registrando propiedad: " + property.getName());
         validateProperty(property);
+
+        if (propertyRepository.existsByName(property.getName())) {
+            throw new ValidationException("Ya existe una propiedad con el nombre '" + property.getName() + "'");
+        }
+
+        property.setCreatedAt(LocalDateTime.now());
         Property savedProperty = propertyRepository.save(property);
         System.out.println("Propiedad registrada con ID: " + savedProperty.getId());
         return savedProperty;
@@ -36,8 +55,7 @@ public class PropertyService {
             throw new ValidationException("No se puede editar una propiedad que ya fue arrendada");
         }
 
-        validateEditProperty(updatedProperty);
-        validateLocationAndPrice(existingProperty.getLocation(), updatedProperty.getPrice());
+        validateEditProperty(existingProperty, updatedProperty);
 
         existingProperty.setName(updatedProperty.getName());
         existingProperty.setImageUrl(updatedProperty.getImageUrl());
@@ -55,7 +73,6 @@ public class PropertyService {
                 .orElseThrow(() -> new ValidationException("La propiedad no existe"));
 
         if (existingProperty.isDeleted()) {
-            System.out.println("La propiedad con ID " + id + " ya está eliminada");
             throw new ValidationException("La propiedad ya fue eliminada anteriormente");
         }
 
@@ -88,14 +105,24 @@ public class PropertyService {
             throw new ValidationException("El nombre de la propiedad no puede estar vacío");
         }
         validateLocationAndPrice(property.getLocation(), property.getPrice());
+        if (property.getImageUrl() == null || property.getImageUrl().isEmpty()) {
+            throw new ValidationException("La URL de la imagen no puede estar vacía");
+        }
     }
 
-    private void validateEditProperty(Property updatedProperty) {
+    private void validateEditProperty(Property existingProperty, Property updatedProperty) {
         if (updatedProperty.getName() == null || updatedProperty.getName().isEmpty()) {
             throw new ValidationException("El nombre de la propiedad no puede estar vacío al editar");
         }
         if (updatedProperty.getPrice() <= 0) {
             throw new ValidationException("El precio debe ser mayor a 0 al editar");
+        }
+        if (!existingProperty.isAvailable()) {
+            throw new ValidationException("No se puede editar una propiedad que ya fue arrendada");
+        }
+        if ((updatedProperty.getPrice() < 2000000) &&
+                (updatedProperty.getLocation().equals("Bogota") || updatedProperty.getLocation().equals("Cali"))) {
+            throw new ValidationException("El precio debe ser mayor a 2,000,000 en Bogotá o Cali");
         }
         if (updatedProperty.getImageUrl() == null || updatedProperty.getImageUrl().isEmpty()) {
             throw new ValidationException("La URL de la imagen no puede estar vacía al editar");
@@ -111,4 +138,5 @@ public class PropertyService {
         }
     }
 }
+
 

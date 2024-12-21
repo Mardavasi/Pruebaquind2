@@ -44,4 +44,16 @@ public class PropertyRepositoryImpl implements PropertyRepositoryPort {
         entity.setDeleted(true);
         jpaPropertyRepository.save(entity);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return jpaPropertyRepository.existsByName(name);
+    }
+    @Override
+    public List<Property> findByPriceBetween(double minPrice, double maxPrice) {
+        return jpaPropertyRepository.findByPriceBetween(minPrice, maxPrice)
+                .stream()
+                .map(PropertyMapper::toModel)
+                .collect(Collectors.toList());
+    }
 }
