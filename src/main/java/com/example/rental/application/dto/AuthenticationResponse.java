@@ -1,5 +1,10 @@
 package com.example.rental.application.dto;
 
+import lombok.Getter;
+
+
+
+@Getter
 public class AuthenticationResponse {
     private final String jwt;
 
@@ -7,9 +12,6 @@ public class AuthenticationResponse {
         this.jwt = jwt;
     }
 
-    // Getter
-    public String getJwt() {
-        return jwt;
-    }
+
 }
 

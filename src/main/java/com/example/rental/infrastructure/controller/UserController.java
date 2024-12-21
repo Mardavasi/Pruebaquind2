@@ -1,7 +1,7 @@
 package com.example.rental.infrastructure.controller;
 
 import com.example.rental.application.dto.AuthenticationRequest;
-import com.example.rental.domain.service.UserService;
+import com.example.rental.application.usecase.UserUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserUseCase userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody AuthenticationRequest request) {

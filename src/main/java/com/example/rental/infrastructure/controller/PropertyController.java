@@ -1,7 +1,7 @@
 package com.example.rental.infrastructure.controller;
 
 import com.example.rental.domain.model.Property;
-import com.example.rental.domain.service.PropertyService;
+import com.example.rental.application.usecase.PropertyUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.Optional;
 @RequestMapping("/properties")
 public class PropertyController {
 
-    private final PropertyService propertyService;
+    private final PropertyUseCase propertyService;
 
-    public PropertyController(PropertyService propertyService) {
+    public PropertyController(PropertyUseCase propertyService) {
         this.propertyService = propertyService;
     }
 

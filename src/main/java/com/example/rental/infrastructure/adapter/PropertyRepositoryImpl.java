@@ -1,9 +1,10 @@
-package com.example.rental.infrastructure.repository;
+package com.example.rental.infrastructure.adapter;
 
 import com.example.rental.application.mapper.PropertyMapper;
 import com.example.rental.domain.model.Property;
 import com.example.rental.domain.port.PropertyRepositoryPort;
 import com.example.rental.infrastructure.entity.PropertyEntity;
+import com.example.rental.infrastructure.repository.JpaPropertyRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

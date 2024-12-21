@@ -1,4 +1,4 @@
-package com.example.rental.domain.service;
+package com.example.rental.application.usecase;
 
 import com.example.rental.infrastructure.entity.UserEntity;
 import com.example.rental.infrastructure.repository.UserRepository;
@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserUseCase {
 
     @Autowired
     private UserRepository userRepository;

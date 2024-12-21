@@ -1,6 +1,5 @@
 package com.example.rental.infrastructure.security;
 
-import com.example.rental.infrastructure.controller.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

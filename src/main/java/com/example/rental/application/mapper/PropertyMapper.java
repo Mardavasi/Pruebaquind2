@@ -3,7 +3,7 @@ package com.example.rental.application.mapper;
 import com.example.rental.domain.model.Property;
 import com.example.rental.infrastructure.entity.PropertyEntity;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 
 @AllArgsConstructor
 

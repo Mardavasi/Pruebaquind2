@@ -28,12 +28,9 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest request) {
         try {
-            // Solo autenticamos sin guardar la variable
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
-
-            // Generamos el token JWT
             String jwt = jwtUtil.generateToken(request.getUsername());
             return ResponseEntity.ok(new AuthenticationResponse(jwt));
         } catch (BadCredentialsException e) {
