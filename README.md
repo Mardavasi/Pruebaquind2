@@ -38,23 +38,23 @@ cd <NOMBRE_DEL_PROYECTO>
 Crea la base de datos en PostgreSQL: 
 
 sql
-Copy code
+
 CREATE DATABASE rental_management;
 Configura las credenciales de acceso en el archivo application.properties:
 
 properties
-Copy code
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/rental_management
 spring.datasource.username=prueba
 spring.datasource.password=pruebapass
 Construir el proyecto
 bash
-Copy code
+
 mvn clean install
 Ejecución
 Inicia el servidor:
 bash
-Copy code
+
 mvn spring-boot:run
 La API estará disponible en el puerto 8181 (http://localhost:8181).
 Endpoints principales
@@ -62,14 +62,14 @@ Autenticación
 Login: POST /auth/login
 Request:
 json
-Copy code
+
 {
   "username": "tu_usuario",
   "password": "tu_contraseña"
 }
 Response:
 json
-Copy code
+
 {
   "jwt": "token_generado"
 }
@@ -78,7 +78,7 @@ Registrar una propiedad
 Endpoint: POST /properties
 Request:
 json
-Copy code
+
 {
   "name": "Casa Bonita",
   "location": "Bogota",
@@ -90,11 +90,11 @@ Listar propiedades
 Endpoint: GET /properties
 Opcional: Filtrar por precio
 http
-Copy code
+
 GET /properties?minPrice=1000000&maxPrice=5000000
 Response:
 json
-Copy code
+
 {
   "status": "La solicitud fue exitosa",
   "properties": [
@@ -111,7 +111,7 @@ Editar propiedad
 Endpoint: PUT /properties/{id}
 Request:
 json
-Copy code
+
 {
   "name": "Casa Hermosa",
   "location": "Bogota",
@@ -123,7 +123,7 @@ Eliminar propiedad
 Endpoint: DELETE /properties/{id}
 Response:
 json
-Copy code
+
 {
   "message": "Propiedad eliminada lógicamente"
 }
@@ -131,7 +131,7 @@ Arrendar propiedad
 Endpoint: POST /properties/{id}/rent
 Response:
 json
-Copy code
+
 {
   "id": 1,
   "name": "Casa Bonita",
